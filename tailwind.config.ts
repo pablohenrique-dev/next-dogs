@@ -11,6 +11,7 @@ const config: Config = {
       colors: {
         primary: {
           DEFAULT: "#ffbb11",
+          medium: "#E09900",
           dark: "#764701",
         },
         neutral: {
@@ -22,6 +23,35 @@ const config: Config = {
       fontFamily: {
         heading: "var(--font-bitter)",
         body: ["var(--font-inter)"],
+      },
+      keyframes: {
+        "fade-right": {
+          "0%": { transform: "translateX(80px)", opacity: "0" },
+          "100%": { transform: "translateX(0px)", opacity: "1" },
+        },
+        "fade-left": {
+          "0%": { transform: "translateX(-80px)", opacity: "0" },
+          "100%": { transform: "translateX(0px)", opacity: "1" },
+        },
+        "fade-bottom": {
+          "0%": { transform: "translateY(-50px)", opacity: "0" },
+          "100%": { transform: "translateY(0px)", opacity: "1" },
+        },
+        "fade-top": {
+          "0%": { transform: "translateY(50px)", opacity: "0" },
+          "100%": { transform: "translateY(0px)", opacity: "1" },
+        },
+        "fade-in": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+      },
+      animation: {
+        "fade-right": "fade-right .5s ease-in-out",
+        "fade-left": "fade-left .5s ease-in-out",
+        "fade-bottom": "fade-bottom .5s ease-in-out",
+        "fade-top": "fade-top .2s ease-in-out",
+        "fade-in": "fade-in .5s ease-in-out",
       },
     },
   },
