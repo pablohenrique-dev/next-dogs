@@ -31,7 +31,7 @@ export function Logo({
   };
 
   return (
-    <span className="flex gap-4 items-center">
+    <span className="flex items-center gap-4">
       <svg
         width={logoSize[size].width}
         height={logoSize[size].height}
@@ -49,7 +49,7 @@ export function Logo({
         <circle cx="7" cy="3" r="3" fill={logoColor[color]} />
       </svg>
       {displayText && (
-        <span className="text-3xl font-heading font-semibold">Dogs</span>
+        <span className="font-heading text-3xl font-semibold">Dogs</span>
       )}
     </span>
   );
