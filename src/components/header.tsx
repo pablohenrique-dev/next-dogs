@@ -3,9 +3,13 @@
 import Link from "next/link";
 import { Logo } from "./icon/logo";
 import { usePathname } from "next/navigation";
+import { use, useContext } from "react";
+import { userContext } from "@/context/user-context";
+import { User } from "./icon/user";
 
 export function Header() {
   const pathname = usePathname();
+  const { user } = useContext(userContext);
 
   if (pathname.includes("account")) return null;
   return (
@@ -14,9 +18,16 @@ export function Header() {
         <Link href="/">
           <Logo />
         </Link>
-        <Link href="/account/login" className="font-body">
-          Criar / Entrar
-        </Link>
+        {user ? (
+          <Link href="/profile" className="flex items-center gap-2 font-body">
+            {user.user_display_name}
+            <User color="black" />
+          </Link>
+        ) : (
+          <Link href="/account/login" className="font-body">
+            Criar / Entrar
+          </Link>
+        )}
       </nav>
     </header>
   );
