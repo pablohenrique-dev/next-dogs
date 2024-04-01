@@ -10,6 +10,7 @@ import { userLoginAction } from "@/actions/user-login";
 import { FormContainer } from "./form-container";
 import { useContext } from "react";
 import { userContext } from "@/context/user-context";
+import { useRouter } from "next/navigation";
 
 const postUserSchema = z.object({
   username: z
@@ -31,6 +32,7 @@ export function LoginForm() {
     resolver: zodResolver(postUserSchema),
   });
   const { setError, setIsLogged, setUser } = useContext(userContext);
+  const router = useRouter();
 
   const onSubmit: SubmitHandler<PostUserFormType> = async (data) => {
     const response = await userLoginAction(data);
@@ -39,11 +41,12 @@ export function LoginForm() {
       setIsLogged(false);
       setUser(null);
     } else {
-      const { user_display_name, user_email, user_nicename } = response;
+      const { token, ...user } = response;
 
       setError(null);
       setIsLogged(true);
-      setUser({ user_display_name, user_email, user_nicename });
+      setUser({ ...user });
+      router.push("/profile");
     }
   };
 
