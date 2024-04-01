@@ -29,7 +29,9 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(function Input(
         className="flex items-center justify-between rounded border border-neutral-light px-5 py-3 text-neutral outline-0 transition-all focus:border-primary"
       />
 
-      {error && <span className="text-sm text-red-600">{error}</span>}
+      {error && (
+        <span className="animate-fade-left text-sm text-red-600">{error}</span>
+      )}
     </fieldset>
   );
 });

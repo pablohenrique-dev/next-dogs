@@ -39,7 +39,11 @@ export const InputPassword = React.forwardRef<HTMLInputElement, Props>(
             {isTypePassword ? "MOSTRAR" : "ESCONDER"}
           </span>
         </div>
-        {error && <span className="text-sm text-red-600">{error}</span>}
+        {error && (
+          <span className="animate-fade-left text-sm text-red-600">
+            {error}
+          </span>
+        )}
       </fieldset>
     );
   },
