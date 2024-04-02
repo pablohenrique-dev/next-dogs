@@ -34,7 +34,7 @@ export const InputPassword = React.forwardRef<HTMLInputElement, Props>(
           />
           <span
             onClick={() => setIsTypePassword((state) => !state)}
-            className="cursor-pointer border-l border-neutral-light pl-4 pr-5 text-xs font-bold uppercase tracking-wider text-neutral-light hover:border-primary"
+            className="cursor-pointer select-none border-l border-neutral-light pl-4 pr-5 text-xs font-bold uppercase tracking-wider text-neutral-light hover:border-primary hover:text-primary"
           >
             {isTypePassword ? "MOSTRAR" : "ESCONDER"}
           </span>
