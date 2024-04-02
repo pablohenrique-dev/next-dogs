@@ -11,7 +11,7 @@ export function Button({ children, isSubmitting, ...props }: ButtonProps) {
   );
   return (
     <button {...props} className={className}>
-      {isSubmitting ? "Entrando" : children}
+      {children}
     </button>
   );
 }
