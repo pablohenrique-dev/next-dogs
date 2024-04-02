@@ -1,28 +1,35 @@
 "use client";
 
 import { User } from "@/@types/globald";
+import { userGet } from "@/actions/user-get";
 import React from "react";
 
 interface UserContextType {
   user: null | User;
-  isLogged: boolean;
-  error: null | string;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
-  setIsLogged: React.Dispatch<React.SetStateAction<boolean>>;
-  setError: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 export const userContext = React.createContext({} as UserContextType);
 
 export function UserContextProvider({ children }: React.PropsWithChildren) {
   const [user, setUser] = React.useState<null | User>(null);
-  const [isLogged, setIsLogged] = React.useState(false);
-  const [error, setError] = React.useState<null | string>(null);
+
+  React.useEffect(() => {
+    async function autoLogin() {
+      const { data } = await userGet();
+      if (data) {
+        setUser({
+          user_email: data.email,
+          user_display_name: data.username,
+          user_nicename: data.nome,
+        });
+      }
+    }
+    autoLogin();
+  }, []);
 
   return (
-    <userContext.Provider
-      value={{ user, isLogged, error, setUser, setIsLogged, setError }}
-    >
+    <userContext.Provider value={{ user, setUser }}>
       {children}
     </userContext.Provider>
   );
