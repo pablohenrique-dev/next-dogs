@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Close } from "./icon/Close";
+import { Close } from "./icon/close";
 
 interface ToastProps extends React.PropsWithChildren {
   closeToast: () => void;
