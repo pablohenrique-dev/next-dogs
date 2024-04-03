@@ -11,7 +11,7 @@ import { Button } from "../button";
 import { userSignUpAction } from "@/actions/user-signup";
 import { userContext } from "@/context/user-context";
 import { useRouter } from "next/navigation";
-import { Toast } from "../toast";
+import { Toast, ToastState } from "../toast";
 
 const createUserSchema = z.object({
   username: z
@@ -35,18 +35,18 @@ export function SignUpForm() {
   });
   const { setUser } = React.useContext(userContext);
   const router = useRouter();
-  const [signUpError, setSignUpError] = React.useState<null | string>(null);
+  const [toastStatus, setToastStatus] = React.useState<null | ToastState>(null);
 
   const onSubmit: SubmitHandler<CreateUserFormType> = async (data) => {
+    setToastStatus(null);
     const response = await userSignUpAction(data);
     if (response.ok && typeof response.data !== "string") {
       const { token, ...user } = response.data;
-
       setUser(user);
       router.push("/profile");
+    } else {
+      setToastStatus({ status: "error", message: response.error });
     }
-
-    response.error ? setSignUpError(response.error) : setSignUpError(null);
   };
 
   return (
@@ -78,8 +78,12 @@ export function SignUpForm() {
           {isSubmitting ? "Criando conta" : "Criar conta"}
         </Button>
       </FormContainer>
-      {signUpError && (
-        <Toast closeToast={() => setSignUpError(null)}>{signUpError}</Toast>
+      {toastStatus && (
+        <Toast
+          closeToast={() => setToastStatus(null)}
+          message={toastStatus.message}
+          status={toastStatus.status}
+        />
       )}
     </>
   );

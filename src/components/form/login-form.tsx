@@ -12,7 +12,7 @@ import { userLoginAction } from "@/actions/user-login";
 import { FormContainer } from "./form-container";
 import { userContext } from "@/context/user-context";
 import { useRouter } from "next/navigation";
-import { Toast } from "../toast";
+import { Toast, ToastState } from "../toast";
 
 const postUserSchema = z.object({
   username: z
@@ -35,17 +35,18 @@ export function LoginForm() {
   });
   const { setUser } = React.useContext(userContext);
   const router = useRouter();
-  const [loginError, setLoginError] = React.useState<null | string>(null);
+  const [toastStatus, setToastStatus] = React.useState<null | ToastState>(null);
 
   const onSubmit: SubmitHandler<PostUserFormType> = async (data) => {
+    setToastStatus(null);
     const response = await userLoginAction(data);
     if (response.ok && typeof response.data !== "string") {
       const { token, ...user } = response.data;
       setUser(user);
       router.push("/profile");
+    } else {
+      setToastStatus({ status: "error", message: response.error });
     }
-
-    response.error ? setLoginError(response.error) : setLoginError(null);
   };
 
   return (
@@ -87,8 +88,12 @@ export function LoginForm() {
           </Link>
         </div>
       </FormContainer>
-      {loginError && (
-        <Toast closeToast={() => setLoginError(null)}>{loginError}</Toast>
+      {toastStatus && (
+        <Toast
+          closeToast={() => setToastStatus(null)}
+          message={toastStatus.message}
+          status={toastStatus.status}
+        />
       )}
     </>
   );
