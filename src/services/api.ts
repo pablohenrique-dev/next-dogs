@@ -64,3 +64,16 @@ export function PASSWORD_LOST_POST(login: string) {
     },
   };
 }
+
+export function PASSWORD_RESET_POST(body: {
+  login: string;
+  password: string;
+  key: string;
+}) {
+  return {
+    url: BASE_URL + "/api/password/reset",
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body,
+  };
+}
