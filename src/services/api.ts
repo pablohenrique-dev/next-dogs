@@ -1,4 +1,5 @@
-export const BASE_URL = "https://dogsapi.origamid.dev/json";
+export const BASE_URL = process.env.API_BASE_URL!;
+const PASSWORD_LOST_URL = process.env.PASSWORD_LOST_URL!;
 
 export const PHOTO_GET = {
   endpoint: {
@@ -49,5 +50,17 @@ export function USER_POST(body: {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
+  };
+}
+
+export function PASSWORD_LOST_POST(login: string) {
+  return {
+    url: BASE_URL + "/api/password/lost",
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: {
+      login,
+      url: PASSWORD_LOST_URL,
+    },
   };
 }
