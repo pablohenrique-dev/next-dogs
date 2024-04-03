@@ -1,6 +1,6 @@
 "use client";
 
-import { User } from "@/@types/globald";
+import { User } from "@/@types/global";
 import { userGet } from "@/actions/user-get";
 import React from "react";
 
