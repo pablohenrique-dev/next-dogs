@@ -1,14 +1,12 @@
 export const BASE_URL = process.env.API_BASE_URL!;
 const PASSWORD_LOST_URL = process.env.PASSWORD_LOST_URL!;
 
-export const PHOTO_GET = {
-  endpoint: {
-    photos: "/api/photo",
-    photos_query: "/api/photo/?_total=9&_page=1&_user=0",
-    photo: "/api/photo/:id",
-  },
-  method: "GET",
-};
+export function PHOTO_GET() {
+  return {
+    url: BASE_URL + "/api/photo",
+    method: "GET",
+  };
+}
 
 export function TOKEN_POST() {
   return {
