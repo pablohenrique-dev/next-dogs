@@ -3,6 +3,7 @@ import { Inter, Bitter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { Providers } from "@/utils/providers";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -27,11 +28,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <body className={`${inter.variable} ${bitter.variable}`}>
-        <Header />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
+        <Providers>
+          <Header />
+          <main className="min-h-screen overflow-hidden">{children}</main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
