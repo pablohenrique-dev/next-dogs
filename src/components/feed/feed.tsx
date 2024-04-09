@@ -13,6 +13,7 @@ interface FeedContainerProps {
 }
 
 const PHOTOS_PER_PAGE = 4;
+const STALE_TIME_IN_MILISECONDS = 60;
 
 async function fetchPhotos({ pageParam }: { pageParam: number }) {
   try {
@@ -34,6 +35,9 @@ export function Feed({ isUserIdNeeded = false }: FeedContainerProps) {
   const { data, error, status, fetchNextPage, hasNextPage, isFetching } =
     useInfiniteQuery({
       queryKey: ["feed"],
+      staleTime: STALE_TIME_IN_MILISECONDS,
+      refetchOnMount: true,
+      refetchOnWindowFocus: true,
       queryFn: fetchPhotos,
       initialPageParam: 1,
       getNextPageParam: (firstPageParam, allPages, lastPageParam) =>
