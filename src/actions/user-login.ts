@@ -1,6 +1,6 @@
 "use server";
 
-import { User } from "@/@types/globald";
+import { User } from "@/@types/global";
 import { PostUserFormType } from "@/components/form/login-form";
 import { TOKEN_POST } from "@/services/api";
 import { handleApiError } from "@/utils/handle-errors";

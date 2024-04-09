@@ -1,6 +1,6 @@
 "use server";
 
-import { User } from "@/@types/globald";
+import { User } from "@/@types/global";
 import { USER_GET } from "@/services/api";
 import { handleApiError } from "@/utils/handle-errors";
 import { cookies } from "next/headers";
