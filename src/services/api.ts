@@ -75,3 +75,15 @@ export function PASSWORD_RESET_POST(body: {
     body,
   };
 }
+
+export function COMMENT_POST(photoId: number, token: string, comment: string) {
+  return {
+    url: BASE_URL + `/api/comment/${photoId}`,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+    body: { comment },
+  };
+}
