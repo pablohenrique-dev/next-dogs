@@ -1,4 +1,4 @@
-import { PHOTO_GET, PHOTO_GETT } from "@/services/api";
+import { PHOTO_GET } from "@/services/api";
 import { handleApiError } from "@/utils/handle-errors";
 import { NextResponse, type NextRequest } from "next/server";
 
@@ -15,8 +15,7 @@ export async function GET(request: NextRequest) {
       {
         method,
         next: {
-          tags: ["photo", "comments"],
-          revalidate: 60,
+          tags: ["feed"],
         },
       },
     );
