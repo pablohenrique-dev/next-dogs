@@ -1,4 +1,4 @@
-import { SignUpForm } from "@/components/form/signup-form";
+import { FormSignUp } from "@/components/form/form-signup";
 import { HeadingDetail } from "@/components/heading-detail";
 import Link from "next/link";
 
@@ -19,7 +19,7 @@ export default function SignUpPage() {
             <HeadingDetail />
           </h2>
 
-          <SignUpForm />
+          <FormSignUp />
         </div>
       </div>
     </>

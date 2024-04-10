@@ -1,4 +1,4 @@
-import { LoginForm } from "@/components/form/login-form";
+import { FormLogin } from "@/components/form/form-login";
 import { HeadingDetail } from "@/components/heading-detail";
 
 import Link from "next/link";
@@ -16,7 +16,7 @@ export default function LoginPage() {
             Entrar
             <HeadingDetail />
           </h2>
-          <LoginForm />
+          <FormLogin />
         </div>
       </div>
     </>

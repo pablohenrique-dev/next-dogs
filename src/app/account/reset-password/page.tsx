@@ -1,4 +1,4 @@
-import { ResetPasswordForm } from "@/components/form/reset-password-form";
+import { FormResetPassword } from "@/components/form/form-reset-password";
 import { HeadingDetail } from "@/components/heading-detail";
 import Link from "next/link";
 
@@ -24,7 +24,7 @@ export default function resetPasswordPage({
           <HeadingDetail />
         </h2>
 
-        <ResetPasswordForm
+        <FormResetPassword
           url_key={searchParams.key}
           login={searchParams.login}
         />
