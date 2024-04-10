@@ -21,7 +21,12 @@ interface FormCommentProps {
 
 export function FormComment({ photoId }: FormCommentProps) {
   const [toastStatus, setToastStatus] = React.useState<null | ToastState>(null);
-  const { reset, register, handleSubmit } = useForm<PostCommentFormType>({
+  const {
+    reset,
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<PostCommentFormType>({
     resolver: zodResolver(postCommentSchema),
   });
   const [isButtonHovered, setIsButtonHovered] = React.useState(false);
@@ -48,7 +53,8 @@ export function FormComment({ photoId }: FormCommentProps) {
           onMouseEnter={() => setIsButtonHovered(true)}
           onMouseLeave={() => setIsButtonHovered(false)}
           type="submit"
-          className="flex aspect-square w-fit items-center justify-center pt-1"
+          className="flex aspect-square w-fit items-center justify-center pt-1 opacity-50 disabled:cursor-not-allowed"
+          disabled={isSubmitting}
         >
           <Send
             color={isButtonHovered ? "primaryDefault" : "black"}
