@@ -37,7 +37,7 @@ const links = [
 
 export function ProfileHeader() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-  const { setUser } = React.useContext(userContext);
+  const { setUserState } = React.useContext(userContext);
   const pathname = usePathname();
 
   const NavLinks = (
@@ -68,7 +68,7 @@ export function ProfileHeader() {
   async function handleClick() {
     await userLogoutAction();
 
-    setUser(null);
+    setUserState(null);
   }
 
   React.useEffect(() => {
