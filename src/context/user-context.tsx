@@ -1,35 +1,36 @@
 "use client";
 
 import { User } from "@/@types/global";
-import { userGet } from "@/actions/user-get";
-import React from "react";
+import { userLogoutAction } from "@/actions/user-logout";
+import { validateTokenAction } from "@/actions/validate-token";
+import React, { ReactNode } from "react";
 
 interface UserContextType {
   user: null | User;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  setUserState: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
 export const userContext = React.createContext({} as UserContextType);
 
-export function UserContextProvider({ children }: React.PropsWithChildren) {
-  const [user, setUser] = React.useState<null | User>(null);
+export function UserContextProvider({
+  children,
+  user,
+}: {
+  children: React.ReactNode;
+  user: User | null;
+}) {
+  const [userState, setUserState] = React.useState<null | User>(user);
 
   React.useEffect(() => {
-    async function autoLogin() {
-      const { data } = await userGet();
-      if (data) {
-        setUser({
-          user_email: data.email,
-          user_display_name: data.username,
-          user_nicename: data.nome,
-        });
-      }
+    async function validate() {
+      const { ok } = await validateTokenAction();
+      if (!ok) userLogoutAction();
     }
-    autoLogin();
-  }, []);
+    if (userState) validate();
+  }, [userState]);
 
   return (
-    <userContext.Provider value={{ user, setUser }}>
+    <userContext.Provider value={{ user: userState, setUserState }}>
       {children}
     </userContext.Provider>
   );
