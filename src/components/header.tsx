@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Logo } from "./icon/logo";
 import { usePathname } from "next/navigation";
-import { use, useContext } from "react";
+import { useContext } from "react";
 import { userContext } from "@/context/user-context";
 import { User } from "./icon/user";
 
@@ -20,7 +20,7 @@ export function Header() {
         </Link>
         {user ? (
           <Link href="/profile" className="flex items-center gap-2 font-body">
-            {user.user_display_name}
+            {user.username}
             <User color="black" />
           </Link>
         ) : (
