@@ -1,31 +1,31 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { z } from "zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "./input";
 import { InputPassword } from "./input-password";
 import { Button } from "../button";
-import Link from "next/link";
 import { userLoginAction } from "@/actions/user-login";
 import { FormContainer } from "./form-container";
-import { userContext } from "@/context/user-context";
-import { useRouter } from "next/navigation";
 import { Toast, ToastState } from "../toast";
 
 const postUserSchema = z.object({
   username: z
     .string()
+    .trim()
     .min(3, { message: "O nome de usuário precisa de no mínimo 3 caracteres" }),
   password: z
     .string()
+    .trim()
     .min(3, { message: "A senha precisa de no mínimo 3 caracteres" }),
 });
 
 export type PostUserFormType = z.infer<typeof postUserSchema>;
 
-export function LoginForm() {
+export function FormLogin() {
   const {
     register,
     handleSubmit,
@@ -33,18 +33,14 @@ export function LoginForm() {
   } = useForm<PostUserFormType>({
     resolver: zodResolver(postUserSchema),
   });
-  const { setUser } = React.useContext(userContext);
-  const router = useRouter();
   const [toastStatus, setToastStatus] = React.useState<null | ToastState>(null);
 
   const onSubmit: SubmitHandler<PostUserFormType> = async (data) => {
     setToastStatus(null);
     const response = await userLoginAction(data);
-    if (response.ok && typeof response.data !== "string") {
-      const { token, ...user } = response.data;
-      setUser(user);
-      router.push("/profile");
-    } else {
+    if (response.ok) {
+      window.location.href = "/profile";
+    } else if (response.error) {
       setToastStatus({ status: "error", message: response.error });
     }
   };

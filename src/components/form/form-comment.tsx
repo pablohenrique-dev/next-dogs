@@ -10,7 +10,7 @@ import { Toast, ToastState } from "../toast";
 import { Send } from "../icon/send";
 
 const postCommentSchema = z.object({
-  comment: z.string().min(1),
+  comment: z.string().trim().min(1),
 });
 
 type PostCommentFormType = z.infer<typeof postCommentSchema>;
@@ -32,7 +32,7 @@ export function FormComment({ photoId }: FormCommentProps) {
 
     if (response.ok) {
       reset();
-    } else {
+    } else if (response.error) {
       setToastStatus({ message: response.error, status: "error" });
     }
   };

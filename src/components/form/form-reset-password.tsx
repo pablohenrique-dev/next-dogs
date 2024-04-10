@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 const postPasswordSchema = z.object({
   password: z
     .string()
+    .trim()
     .min(6, { message: "A senha precisa de no mínimo 6 caracteres" }),
 });
 
@@ -24,7 +25,7 @@ interface ResetPasswordFormProps {
   login: string;
 }
 
-export function ResetPasswordForm({ url_key, login }: ResetPasswordFormProps) {
+export function FormResetPassword({ url_key, login }: ResetPasswordFormProps) {
   const {
     register,
     handleSubmit,
@@ -48,7 +49,7 @@ export function ResetPasswordForm({ url_key, login }: ResetPasswordFormProps) {
     if (response.ok && response.data) {
       setToastStatus({ message: response.data, status: "success" });
       router.push("/account/login");
-    } else {
+    } else if (response.error) {
       setToastStatus({ message: response.error, status: "error" });
     }
   };

@@ -11,7 +11,7 @@ import { Toast, ToastState } from "../toast";
 import { passwordLostAction } from "@/actions/password-lost";
 
 const postLoginSchema = z.object({
-  login: z.string().min(1, { message: "Esse campo é obrigatório" }),
+  login: z.string().trim().min(1, { message: "Esse campo é obrigatório" }),
 });
 
 type PostLoginFormType = z.infer<typeof postLoginSchema>;
@@ -32,7 +32,7 @@ export function ForgotPasswordForm() {
     const response = await passwordLostAction(data.login);
     if (response.ok && response.data) {
       setToastStatus({ message: response.data, status: "success" });
-    } else {
+    } else if (response.error) {
       setToastStatus({ message: response.error, status: "error" });
     }
   };

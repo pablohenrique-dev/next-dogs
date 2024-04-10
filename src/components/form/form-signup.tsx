@@ -9,23 +9,23 @@ import { Input } from "./input";
 import { InputPassword } from "./input-password";
 import { Button } from "../button";
 import { userSignUpAction } from "@/actions/user-signup";
-import { userContext } from "@/context/user-context";
-import { useRouter } from "next/navigation";
 import { Toast, ToastState } from "../toast";
 
 const createUserSchema = z.object({
   username: z
     .string()
+    .trim()
     .min(3, { message: "O nome de usuário precisa de no mínimo 3 caracteres" }),
   password: z
     .string()
+    .trim()
     .min(6, { message: "A senha precisa de no mínimo 6 caracteres" }),
-  email: z.string().email({ message: "Esse e-mail não é válido" }),
+  email: z.string().trim().email({ message: "Esse e-mail não é válido" }),
 });
 
-type CreateUserFormType = z.infer<typeof createUserSchema>;
+export type CreateUserFormType = z.infer<typeof createUserSchema>;
 
-export function SignUpForm() {
+export function FormSignUp() {
   const {
     register,
     handleSubmit,
@@ -33,18 +33,15 @@ export function SignUpForm() {
   } = useForm<CreateUserFormType>({
     resolver: zodResolver(createUserSchema),
   });
-  const { setUser } = React.useContext(userContext);
-  const router = useRouter();
+
   const [toastStatus, setToastStatus] = React.useState<null | ToastState>(null);
 
   const onSubmit: SubmitHandler<CreateUserFormType> = async (data) => {
     setToastStatus(null);
     const response = await userSignUpAction(data);
-    if (response.ok && typeof response.data !== "string") {
-      const { token, ...user } = response.data;
-      setUser(user);
-      router.push("/profile");
-    } else {
+    if (response.ok) {
+      window.location.href = "/profile";
+    } else if (response.error) {
       setToastStatus({ status: "error", message: response.error });
     }
   };
