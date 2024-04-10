@@ -22,8 +22,8 @@ export async function passwordResestAction(credentials: {
 
     const data = (await response.json()) as string;
 
-    return { ok: true, data, error: "" };
+    return { ok: true, data, error: null };
   } catch (error) {
-    return { ok: false, data: null, error: handleApiError(error) };
+    return handleApiError(error);
   }
 }

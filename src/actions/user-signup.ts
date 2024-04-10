@@ -3,12 +3,9 @@
 import { USER_POST } from "@/services/api";
 import { handleApiError } from "@/utils/handle-errors";
 import { userLoginAction } from "./user-login";
+import { CreateUserFormType } from "@/components/form/form-signup";
 
-export async function userSignUpAction(credentials: {
-  username: string;
-  password: string;
-  email: string;
-}) {
+export async function userSignUpAction(credentials: CreateUserFormType) {
   try {
     const { body, headers, method, url } = USER_POST(credentials);
     const response = await fetch(url, {
@@ -32,14 +29,10 @@ export async function userSignUpAction(credentials: {
 
     return {
       ok: true,
-      error: "",
       data,
+      error: null,
     };
   } catch (error) {
-    return {
-      ok: false,
-      error: handleApiError(error),
-      data: "",
-    };
+    return handleApiError(error);
   }
 }

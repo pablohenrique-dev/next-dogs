@@ -33,7 +33,7 @@ interface PhotoContent {
   comments: Comment[];
 }
 
-async function getPhoto(id: string): Promise<string | PhotoContent> {
+async function getPhoto(id: string) {
   const REVALIDATE_CACHE_TIME = 60;
   try {
     const { url, method } = PHOTO_GET();
@@ -47,7 +47,9 @@ async function getPhoto(id: string): Promise<string | PhotoContent> {
     if (!response.ok) {
       throw new Error("Ocorreu um erro ao buscar a image.");
     }
-    return response.json();
+
+    const data = (await response.json()) as PhotoContent;
+    return { ok: true, data, error: null };
   } catch (error) {
     return handleApiError(error);
   }
@@ -56,12 +58,12 @@ async function getPhoto(id: string): Promise<string | PhotoContent> {
 export default async function PhotoPage({ params }: PhotoPageParams) {
   const photoContent = await getPhoto(params.id);
 
-  if (typeof photoContent !== "string")
+  if (photoContent.data)
     return (
       <section className="container my-6 animate-fade-in">
         <Image
-          src={photoContent.photo.src}
-          alt={photoContent.photo.title}
+          src={photoContent.data.photo.src}
+          alt={photoContent.data.photo.title}
           width={1216}
           height={1216}
           sizes="100vw"
@@ -70,30 +72,30 @@ export default async function PhotoPage({ params }: PhotoPageParams) {
         />
         <div>
           <div className="my-4 flex items-center justify-between text-lg opacity-65">
-            <span>@{photoContent.photo.title}</span>
+            <span>@{photoContent.data.photo.title}</span>
             <span className="flex items-center gap-2">
               <Eye color="black" size="small" />
-              {photoContent.photo.acessos}
+              {photoContent.data.photo.acessos}
             </span>
           </div>
           <div className="flex items-center justify-between sm:flex-col sm:items-start">
             <h2 className="relative font-heading text-4xl sm:mb-6 sm:text-5xl">
-              {photoContent.photo.author}
+              {photoContent.data.photo.author}
               <HeadingDetail />
             </h2>
             <div className="flex items-center gap-6 text-base font-semibold opacity-65 sm:text-lg">
               <span className="border-l-2 border-l-black pl-2">
-                {photoContent.photo.peso} Kg
+                {photoContent.data.photo.peso} Kg
               </span>
               <span className="border-l-2 border-l-black pl-2">
-                {photoContent.photo.idade} anos
+                {photoContent.data.photo.idade} anos
               </span>
             </div>
           </div>
 
           <Comments
-            comments={photoContent.comments}
-            photoId={photoContent.photo.id}
+            comments={photoContent.data.comments}
+            photoId={photoContent.data.photo.id}
           />
         </div>
       </section>

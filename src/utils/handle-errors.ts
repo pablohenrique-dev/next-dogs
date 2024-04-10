@@ -1,7 +1,6 @@
 export function handleApiError(error: any) {
   if (error instanceof Error) {
-    return error.message;
+    return { ok: false, error: error.message, data: null };
   }
-
-  return "Um erro inesperado aconteceu.";
+  return { ok: false, error: "Um erro inesperado aconteceu.", data: null };
 }

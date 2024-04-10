@@ -25,7 +25,7 @@ async function fetchPhotos({ pageParam }: { pageParam: number }) {
     }
     const data = (await response.json()) as Photo[];
 
-    return data;
+    return { ok: true, data, error: null };
   } catch (error) {
     return handleApiError(error);
   }
@@ -41,7 +41,7 @@ export function Feed({ isUserIdNeeded = false }: FeedContainerProps) {
       queryFn: fetchPhotos,
       initialPageParam: 1,
       getNextPageParam: (firstPageParam, allPages, lastPageParam) =>
-        firstPageParam.length ? lastPageParam + 1 : undefined,
+        firstPageParam.data?.length ? lastPageParam + 1 : undefined,
     });
   const { ref, inView } = useInView();
 
@@ -57,8 +57,8 @@ export function Feed({ isUserIdNeeded = false }: FeedContainerProps) {
     return (
       <div className="container my-6">
         <ul className="flex flex-col gap-4">
-          {data.pages.map((photos, i) => {
-            if (typeof photos === "string") return;
+          {data.pages.map(({ data: photos }, i) => {
+            if (!photos) return;
             return <FeedPhotos key={i} photos={photos} />;
           })}
           <div ref={ref}>

@@ -1,23 +1,25 @@
 "use server";
 
-import { User } from "@/@types/global";
-import { PostUserFormType } from "@/components/form/login-form";
+import { PostUserFormType } from "@/components/form/form-login";
 import { TOKEN_POST } from "@/services/api";
 import { handleApiError } from "@/utils/handle-errors";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
-interface UserLoginResponse extends User {
+interface UserLoginResponse {
+  user_email: string;
+  user_nicename: string;
+  user_display_name: string;
   token: string;
 }
 
-export async function userLoginAction(userCredentials: PostUserFormType) {
+export async function userLoginAction(credentials: PostUserFormType) {
   try {
     const { url, headers, method } = TOKEN_POST();
     const response = await fetch(url, {
       method,
       headers,
-      body: JSON.stringify(userCredentials),
+      body: JSON.stringify(credentials),
     });
 
     if (!response.ok) {
@@ -35,8 +37,8 @@ export async function userLoginAction(userCredentials: PostUserFormType) {
 
     revalidateTag("feed");
 
-    return { data, error: "", ok: true };
+    return { ok: true, data: null, error: null };
   } catch (error) {
-    return { data: "", error: handleApiError(error), ok: false };
+    return handleApiError(error);
   }
 }

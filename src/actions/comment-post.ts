@@ -13,7 +13,11 @@ export async function commentPostAction(photoId: number, comment: string) {
       throw new Error("Faça login novamente.");
     }
 
-    const { url, method, headers, body } = COMMENT_POST(photoId, token, comment);
+    const { url, method, headers, body } = COMMENT_POST(
+      photoId,
+      token,
+      comment,
+    );
     const response = await fetch(url, {
       method,
       headers,
@@ -26,8 +30,8 @@ export async function commentPostAction(photoId: number, comment: string) {
 
     revalidateTag("photo");
     revalidateTag("feed");
-    return { ok: true, data: null, error: "" };
+    return { ok: true, data: null, error: null };
   } catch (error) {
-    return { ok: false, data: null, error: handleApiError(error) };
+    return handleApiError(error);
   }
 }

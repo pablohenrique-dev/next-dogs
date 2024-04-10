@@ -19,8 +19,8 @@ export async function passwordLostAction(login: string) {
 
     const data = await response.json();
 
-    return { ok: true, data, error: "" };
+    return { ok: true, data, error: null };
   } catch (error) {
-    return { ok: false, data: "", error: handleApiError(error) };
+    return handleApiError(error);
   }
 }
