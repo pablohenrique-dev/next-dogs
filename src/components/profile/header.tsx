@@ -7,12 +7,12 @@ import { userLogoutAction } from "@/actions/user-logout";
 import { usePathname } from "next/navigation";
 import { Feed } from "../icon/feed";
 import { Chart } from "../icon/chart";
-import { Portrait } from "../icon/portrait";
 import { SignOut } from "../icon/sign-out";
 import { NavLink } from "./nav-link";
 import { MenuDesktop } from "./menu-desktop";
 import { MenuMobile } from "./menu-mobile";
 import { ToggleMobileMenu } from "./toggle-mobile-menu";
+import { Plus } from "../icon/plus";
 
 const links = [
   {
@@ -29,11 +29,22 @@ const links = [
   },
   {
     href: "/profile/new-post",
-    icon: Portrait,
+    icon: Plus,
     text: "Adicionar foto",
     condition: (pathname: string) => pathname.includes("new-post"),
   },
 ];
+
+function getTitle(pathname: string) {
+  switch (pathname) {
+    case "/profile/statistics":
+      return "Estatísticas";
+    case "/profile/new-post":
+      return "Novo post";
+    default:
+      return "Minha conta";
+  }
+}
 
 export function ProfileHeader() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
@@ -78,7 +89,7 @@ export function ProfileHeader() {
   return (
     <header className="flex items-center justify-between">
       <h2 className="relative animate-fade-left font-heading text-3xl sm:text-5xl">
-        Minha conta
+        {getTitle(pathname)}
         <HeadingDetail />
       </h2>
 
