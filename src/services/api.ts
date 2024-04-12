@@ -87,3 +87,11 @@ export function COMMENT_POST(photoId: number, token: string, comment: string) {
     body: { comment },
   };
 }
+
+export function PHOTO_POST(token: string) {
+  return {
+    url: BASE_URL + "/api/photo",
+    method: "POST",
+    headers: { Authorization: "Bearer " + token },
+  };
+}
