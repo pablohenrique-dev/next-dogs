@@ -10,9 +10,11 @@ export function Footer() {
 
   return (
     <footer className="bg-primary">
-      <div className="container flex items-center justify-center gap-4 py-8">
+      <div className="container flex flex-col items-center justify-center gap-4 py-8 sm:flex-row">
         <Logo color="primaryDark" displayText={false} />
-        <p className="font-body text-lg">Dogs. Alguns direitos reservados.</p>
+        <p className="text-center font-body text-lg">
+          Dogs. Alguns direitos reservados.
+        </p>
       </div>
     </footer>
   );
