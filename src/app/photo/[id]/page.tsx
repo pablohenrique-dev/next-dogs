@@ -1,10 +1,8 @@
 import { Photo } from "@/@types/global";
-import { Comments } from "@/components/comments";
-import { HeadingDetail } from "@/components/heading-detail";
-import { Eye } from "@/components/icon/eye";
+import { PhotoContent } from "@/components/photo/photo-content";
 import { PHOTO_GET } from "@/services/api";
 import { handleApiError } from "@/utils/handle-errors";
-import Image from "next/image";
+import { notFound } from "next/navigation";
 
 interface PhotoPageParams {
   params: { id: string };
@@ -28,20 +26,21 @@ export interface Comment {
   user_id: string;
 }
 
-interface PhotoContent {
+export interface PhotoContent {
   photo: Photo;
   comments: Comment[];
 }
 
+const REVALIDATE_TIME_IN_SECONDS = 60;
+
 async function getPhoto(id: string) {
-  const REVALIDATE_CACHE_TIME = 60;
   try {
     const { url, method } = PHOTO_GET();
     const response = await fetch(url + `/${id}`, {
       method,
       next: {
         tags: ["photo"],
-        revalidate: REVALIDATE_CACHE_TIME,
+        revalidate: REVALIDATE_TIME_IN_SECONDS,
       },
     });
     if (!response.ok) {
@@ -56,48 +55,17 @@ async function getPhoto(id: string) {
 }
 
 export default async function PhotoPage({ params }: PhotoPageParams) {
-  const photoContent = await getPhoto(params.id);
+  const { data } = await getPhoto(params.id);
 
-  if (photoContent.data)
-    return (
-      <section className="container my-6 animate-fade-in">
-        <Image
-          src={photoContent.data.photo.src}
-          alt={photoContent.data.photo.title}
-          width={1216}
-          height={1216}
-          sizes="100vw"
-          priority
-          className="w-full rounded"
-        />
-        <div>
-          <div className="my-4 flex items-center justify-between text-lg opacity-65">
-            <span>@{photoContent.data.photo.title}</span>
-            <span className="flex items-center gap-2">
-              <Eye color="black" size="small" />
-              {photoContent.data.photo.acessos}
-            </span>
-          </div>
-          <div className="flex items-center justify-between sm:flex-col sm:items-start">
-            <h2 className="relative font-heading text-4xl sm:mb-6 sm:text-5xl">
-              {photoContent.data.photo.author}
-              <HeadingDetail />
-            </h2>
-            <div className="flex items-center gap-6 text-base font-semibold opacity-65 sm:text-lg">
-              <span className="border-l-2 border-l-black pl-2">
-                {photoContent.data.photo.peso} Kg
-              </span>
-              <span className="border-l-2 border-l-black pl-2">
-                {photoContent.data.photo.idade} anos
-              </span>
-            </div>
-          </div>
+  if (!data) return notFound();
+  return <PhotoContent photoContent={data} />;
+}
 
-          <Comments
-            comments={photoContent.data.comments}
-            photoId={photoContent.data.photo.id}
-          />
-        </div>
-      </section>
-    );
+export async function generateMetadata({ params }: PhotoPageParams) {
+  const { data } = await getPhoto(params.id);
+
+  if (!data) return { title: "Fotos" };
+  return {
+    title: data.photo.title,
+  };
 }

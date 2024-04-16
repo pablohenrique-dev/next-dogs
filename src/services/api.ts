@@ -96,6 +96,14 @@ export function PHOTO_POST(token: string) {
   };
 }
 
+export function PHOTO_DELETE(token: string, photoId: string) {
+  return {
+    url: BASE_URL + `/api/photo/${photoId}`,
+    method: "DELETE",
+    headers: { Authorization: "Bearer " + token },
+  };
+}
+
 export function STATS_GET(token: string) {
   return {
     url: BASE_URL + "/api/stats",
