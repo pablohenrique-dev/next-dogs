@@ -3,14 +3,24 @@
 import { User } from "@/@types/global";
 import { userLogoutAction } from "@/actions/user-logout";
 import { validateTokenAction } from "@/actions/validate-token";
-import React, { ReactNode } from "react";
+import React from "react";
 
-interface UserContextType {
+interface UserContextProps {
   user: null | User;
   setUserState: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
-export const userContext = React.createContext({} as UserContextType);
+const UserContext = React.createContext<null | UserContextProps>(null);
+
+export const useUser = () => {
+  const context = React.useContext(UserContext);
+
+  if (context === null) {
+    throw new Error("UseContext deve estar dentro do Provider");
+  }
+
+  return context;
+};
 
 export function UserContextProvider({
   children,
@@ -30,8 +40,8 @@ export function UserContextProvider({
   }, [userState]);
 
   return (
-    <userContext.Provider value={{ user: userState, setUserState }}>
+    <UserContext.Provider value={{ user: userState, setUserState }}>
       {children}
-    </userContext.Provider>
+    </UserContext.Provider>
   );
 }

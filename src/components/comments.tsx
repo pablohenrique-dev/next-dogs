@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Comment } from "@/app/photo/[id]/page";
-import { userContext } from "@/context/user-context";
+import { useUser } from "@/context/user-context";
 import { FormComment } from "./form/form-comment";
 
 interface CommentsProps {
@@ -11,7 +11,7 @@ interface CommentsProps {
 }
 
 export function Comments({ comments, photoId }: CommentsProps) {
-  const { user } = React.useContext(userContext);
+  const { user } = useUser();
   return (
     <div className="mt-8 animate-fade-in">
       <ul>

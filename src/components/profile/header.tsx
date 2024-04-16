@@ -2,7 +2,7 @@
 
 import React from "react";
 import { HeadingDetail } from "../heading-detail";
-import { userContext } from "@/context/user-context";
+import { useUser } from "@/context/user-context";
 import { userLogoutAction } from "@/actions/user-logout";
 import { usePathname } from "next/navigation";
 import { Feed } from "../icon/feed";
@@ -48,7 +48,7 @@ function getTitle(pathname: string) {
 
 export function ProfileHeader() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-  const { setUserState } = React.useContext(userContext);
+  const { setUserState } = useUser();
   const pathname = usePathname();
 
   const NavLinks = (

@@ -3,13 +3,12 @@
 import Link from "next/link";
 import { Logo } from "./icon/logo";
 import { usePathname } from "next/navigation";
-import { useContext } from "react";
-import { userContext } from "@/context/user-context";
+import { useUser } from "@/context/user-context";
 import { User } from "./icon/user";
 
 export function Header() {
   const pathname = usePathname();
-  const { user } = useContext(userContext);
+  const { user } = useUser();
 
   if (pathname.includes("account")) return null;
   return (
