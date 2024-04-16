@@ -23,7 +23,7 @@ export function Loading() {
   }
 
   return (
-    <div className="absolute left-0 top-0 z-[1000] flex h-screen w-full animate-fade-in">
+    <div className="left-0 top-0 z-[1000] flex h-fit w-full">
       <div className="m-auto flex aspect-square w-20 items-center justify-center rounded-full bg-primary pl-[5px]">
         <svg
           width="46"

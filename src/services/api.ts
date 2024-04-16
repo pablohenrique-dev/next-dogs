@@ -95,3 +95,11 @@ export function PHOTO_POST(token: string) {
     headers: { Authorization: "Bearer " + token },
   };
 }
+
+export function STATS_GET(token: string) {
+  return {
+    url: BASE_URL + "/api/stats",
+    method: "GET",
+    headers: { Authorization: "Bearer " + token },
+  };
+}

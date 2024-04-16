@@ -16,3 +16,9 @@ export interface Photo {
   acessos: string;
   total_comments: string;
 }
+
+export interface PostStatistic {
+  id: number;
+  title: string;
+  acessos: string;
+}
