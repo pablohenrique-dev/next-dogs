@@ -2,11 +2,11 @@
 
 import { PhotoContent as PhotoInfos } from "@/app/photo/[id]/page";
 import { HeadingDetail } from "../heading-detail";
-import Image from "next/image";
 import { Eye } from "../icon/eye";
 import { Comments } from "../comments";
 import { useUser } from "@/context/user-context";
 import { PhotoDelete } from "./photo-delete";
+import { ImageWithSkeleton } from "../image-with-skeleton";
 
 interface PhotoContentProps {
   photoContent: PhotoInfos;
@@ -19,14 +19,13 @@ export function PhotoContent({
 
   return (
     <section className="container my-6 animate-fade-in">
-      <Image
+      <ImageWithSkeleton
         src={photo.src}
         alt={photo.title}
         width={1216}
         height={1216}
         sizes="100vw"
         priority
-        className="w-full rounded"
       />
       <div>
         <div className="my-6 flex items-center justify-between text-lg opacity-75">
