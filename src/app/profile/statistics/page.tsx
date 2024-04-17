@@ -4,12 +4,13 @@ import { cookies } from "next/headers";
 import { PostStatistic } from "@/@types/global";
 // import { Statistics } from "@/components/profile/statistics";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 
 const Statistics = dynamic(() => import("@/components/profile/statistics"), {
   ssr: false,
 });
 
-const REVALIDATE_CACHE_TIME = 10;
+const REVALIDATE_TIME_IN_SECONDS = 10;
 
 async function getStatistics() {
   const token = cookies().get("token")?.value;
@@ -24,7 +25,7 @@ async function getStatistics() {
       headers,
       next: {
         tags: ["stats"],
-        revalidate: REVALIDATE_CACHE_TIME,
+        revalidate: REVALIDATE_TIME_IN_SECONDS,
       },
     });
 
@@ -43,11 +44,19 @@ async function getStatistics() {
 export default async function StatisticsPage() {
   const { data } = await getStatistics();
 
-  if (!data)
+  if (!data || data.length === 0)
     return (
-      <h3 className="text-lg font-semibold opacity-70 sm:text-2xl">
-        Não há estatísticas para mostrar 😥
-      </h3>
+      <div className="mt-8 flex animate-fade-left flex-col gap-6">
+        <h3 className="font-body text-lg">
+          Não há estatísticas para mostrar 😥
+        </h3>
+        <Link
+          href="/profile/new-post"
+          className="inline-block w-fit rounded bg-primary px-6 py-4 font-bold uppercase text-primary-dark"
+        >
+          Criar post
+        </Link>
+      </div>
     );
   return <Statistics posts={data} />;
 }

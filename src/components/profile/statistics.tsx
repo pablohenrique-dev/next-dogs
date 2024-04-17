@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { PostStatistic } from "@/@types/global";
 import { useStatistic } from "@/hooks/use-statistic";
 import { VictoryAxis, VictoryBar, VictoryChart, VictoryTheme } from "victory";
@@ -82,17 +81,4 @@ export default function Statistics({ posts }: StatisticsProps) {
         </VictoryChart>
       </div>
     );
-  return (
-    <div className="mt-8 flex animate-fade-left flex-col gap-6">
-      <h3 className="text-lg font-semibold opacity-70 sm:text-2xl">
-        Não há estatísticas para mostrar 😥
-      </h3>
-      <Link
-        href="/profile/new-post"
-        className="inline-block w-fit rounded bg-primary px-6 py-4 font-bold uppercase text-primary-dark"
-      >
-        Criar post
-      </Link>
-    </div>
-  );
 }
