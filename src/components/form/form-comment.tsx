@@ -46,9 +46,14 @@ export function FormComment({ photoId }: FormCommentProps) {
     <>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="mt-6 grid animate-fade-in grid-cols-[80%_auto] gap-2 align-middle sm:grid-cols-[90%_auto]"
+        className="mt-6 flex animate-fade-in items-center gap-4"
       >
-        <Input placeholder="Comente..." label="" {...register("comment")} />
+        <Input
+          placeholder="Comente..."
+          label=""
+          {...register("comment")}
+          className="grow"
+        />
         <button
           onMouseEnter={() => setIsButtonHovered(true)}
           onMouseLeave={() => setIsButtonHovered(false)}

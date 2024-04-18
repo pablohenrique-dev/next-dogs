@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { twMerge } from "tailwind-merge";
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: string;
@@ -26,7 +27,10 @@ export const Input = React.forwardRef<HTMLInputElement, Props>(function Input(
         id={name}
         name={name}
         {...rest}
-        className="flex items-center justify-between rounded border border-neutral-light px-5 py-3 text-neutral outline-0 transition-all focus:border-primary"
+        className={twMerge(
+          "flex items-center justify-between rounded border border-neutral-light px-5 py-3 text-neutral outline-0 transition-all focus:border-primary",
+          className,
+        )}
       />
 
       {error && (
