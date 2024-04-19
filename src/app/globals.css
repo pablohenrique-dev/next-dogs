@@ -4,7 +4,7 @@
 
 @layer utilities {
   .container {
-    @apply max-w-[768px] px-4 mx-auto;
+    @apply mx-auto max-w-[768px] px-4;
   }
 }
 
@@ -13,4 +13,24 @@ img {
   width: auto;
   height: auto;
   max-width: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgb(195, 195, 195);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #e09900;
+  border-radius: 4px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #764701;
 }
