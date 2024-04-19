@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image, { ImageProps } from "next/image";
+import { twMerge } from "tailwind-merge";
 
 interface ImageWithSkeletonProps extends ImageProps {}
 
@@ -11,6 +12,7 @@ export function ImageWithSkeleton({
   sizes,
   width,
   height,
+  className,
   ...props
 }: ImageWithSkeletonProps) {
   const [isLoading, setIsLoading] = React.useState(true);
@@ -18,7 +20,7 @@ export function ImageWithSkeleton({
   return (
     <>
       {isLoading && (
-        <div className="dark:bg-neutral00 aspect-square w-full animate-pulse overflow-hidden rounded border bg-neutral-light"></div>
+        <div className="dark:bg-neutral00 aspect-square min-w-full animate-pulse overflow-hidden rounded border bg-neutral-light"></div>
       )}
       <Image
         src={src}
@@ -26,7 +28,14 @@ export function ImageWithSkeleton({
         sizes={sizes}
         width={width}
         height={height}
-        className={`rounded ${isLoading ? "h-0 w-0" : "w-full animate-fade-in"}`}
+        style={{
+          objectFit: "contain",
+        }}
+        className={twMerge(
+          "rounded",
+          className,
+          isLoading ? "h-0 w-0" : "animate-fade-in",
+        )}
         onLoad={() => setIsLoading(false)}
         {...props}
       />
