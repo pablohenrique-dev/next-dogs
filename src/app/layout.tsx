@@ -25,8 +25,10 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
   const { data: user } = await userGetAction();
 
@@ -36,6 +38,7 @@ export default async function RootLayout({
         <Providers user={user}>
           <Header />
           <main className="min-h-screen overflow-hidden">{children}</main>
+          <div>{modal}</div>
           <Footer />
         </Providers>
       </body>
