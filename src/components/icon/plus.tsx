@@ -1,6 +1,6 @@
 interface PlusProps {
   size?: "small" | "medium" | "big";
-  color?: "primaryDefault" | "primaryDark" | "black";
+  color?: "primaryDefault" | "primaryDark" | "black" | "white";
 }
 
 export function Plus({ color = "primaryDefault", size = "medium" }: PlusProps) {
@@ -23,6 +23,7 @@ export function Plus({ color = "primaryDefault", size = "medium" }: PlusProps) {
     primaryDefault: "#ffbb11",
     primaryDark: "#764701",
     black: "#000000",
+    white: "#ffffff",
   };
 
   return (
