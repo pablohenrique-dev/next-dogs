@@ -8,6 +8,21 @@ export function PHOTO_GET() {
   };
 }
 
+export function PHOTOS_GET({
+  total,
+  page,
+  user,
+}: {
+  total: number;
+  page: number;
+  user: 0 | string;
+}) {
+  return {
+    url: BASE_URL + `/api/photo//?_total=${total}&_page=${page}&_user=${user}`,
+    method: "GET",
+  };
+}
+
 export function TOKEN_POST() {
   return {
     url: BASE_URL + "/jwt-auth/v1/token",
