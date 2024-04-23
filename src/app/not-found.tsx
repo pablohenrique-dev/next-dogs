@@ -1,6 +1,7 @@
+"use client";
+
 import { Dog } from "@/components/icon/dog";
 import { Metadata } from "next";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Página não encontrada",
@@ -17,12 +18,12 @@ export default function NotFound() {
       <h1 className="mb-8 text-center font-body text-3xl font-bold leading-[130%] sm:text-4xl">
         Página não encontrada.
       </h1>
-      <Link
+      <button
         className="cursor-pointer rounded bg-primary px-6 py-3 text-lg font-semibold text-primary-dark transition-all hover:bg-primary-medium"
-        href="/"
+        onClick={() => (window.location.href = "/")}
       >
         Volte ao início
-      </Link>
+      </button>
     </section>
   );
 }
