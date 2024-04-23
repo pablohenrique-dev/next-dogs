@@ -1,18 +1,21 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 
 interface ModalProps extends React.ComponentProps<"section"> {}
 
 export function Modal({ children, ...props }: ModalProps) {
   const router = useRouter();
+  const pathname = usePathname();
 
   function handleCloseModal(e: React.MouseEvent<HTMLElement>) {
     if (e.target === e.currentTarget) {
       router.back();
     }
   }
+
+  if (!pathname.includes("photo")) return null;
 
   return (
     <section
