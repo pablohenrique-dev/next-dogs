@@ -9,6 +9,7 @@ import { ImageWithSkeleton } from "../image-with-skeleton";
 import { useRouter } from "next/navigation";
 import { Plus } from "../icon/plus";
 import { PhotoContentType } from "@/@types/global";
+import Link from "next/link";
 
 interface PhotoContentProps {
   photoContent: PhotoContentType;
@@ -52,7 +53,7 @@ export function PhotoContent({
         </button>
       )}
       <aside
-        className={`flex flex-col justify-between ${isModal && "p-4 md:p-6 lg:max-w-[320px]"}`}
+        className={`flex flex-col justify-between ${isModal && "p-4 md:p-6 lg:w-[320px]"}`}
       >
         <div>
           <div
@@ -61,7 +62,7 @@ export function PhotoContent({
             {user && user.username === photo.author ? (
               <PhotoDelete photoId={String(photo.id)} />
             ) : (
-              <span>@{photo.author}</span>
+              <Link href={`/user/${photo.author}`}>@{photo.author}</Link>
             )}
 
             <span className="flex items-center gap-2">
