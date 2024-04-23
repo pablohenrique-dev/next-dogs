@@ -1,48 +1,39 @@
 "use client";
 
 import React from "react";
-import { Photo } from "@/@types/global";
 import { FeedPhotos } from "./feed-photos";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { handleApiError } from "@/utils/handle-errors";
 import { useInView } from "react-intersection-observer";
-import { PhotosSkeleton } from "../photo/photos-skeleton";
-
-interface FeedContainerProps {
-  isUserIdNeeded?: boolean;
-}
+import { Loading } from "../loading";
+import { photosGet } from "@/utils/photos-get";
 
 const PHOTOS_PER_PAGE = 4;
-const STALE_TIME_IN_MILISECONDS = 60;
+const STALE_TIME_IN_MILISECONDS = 10;
 
-async function fetchPhotos({ pageParam }: { pageParam: number }) {
-  try {
-    const response = await fetch(
-      `/api/photo?total=${PHOTOS_PER_PAGE}&page=${pageParam}&user=${0}`,
-    );
-    if (!response.ok) {
-      throw new Error("Ocorreu um erro ao buscar as imagens");
-    }
-    const data = (await response.json()) as Photo[];
-
-    return { ok: true, data, error: null };
-  } catch (error) {
-    return handleApiError(error);
-  }
+interface FeedProps {
+  username: string | null;
+  fallback?: React.ReactNode;
 }
 
-export function Feed({ isUserIdNeeded = false }: FeedContainerProps) {
+export function Feed({ username, fallback }: FeedProps) {
   const { data, error, status, fetchNextPage, hasNextPage, isFetching } =
     useInfiniteQuery({
       queryKey: ["feed"],
       staleTime: STALE_TIME_IN_MILISECONDS,
       refetchOnMount: true,
       refetchOnWindowFocus: true,
-      queryFn: fetchPhotos,
+      throwOnError: true,
+      queryFn: ({ pageParam }) =>
+        photosGet({
+          pageParam,
+          postPerPage: PHOTOS_PER_PAGE,
+          user: username || 0,
+        }),
       initialPageParam: 1,
       getNextPageParam: (firstPageParam, allPages, lastPageParam) =>
-        firstPageParam.data?.length ? lastPageParam + 1 : undefined,
+        firstPageParam.length ? lastPageParam + 1 : undefined,
     });
+
   const { ref, inView } = useInView();
 
   React.useEffect(() => {
@@ -51,20 +42,38 @@ export function Feed({ isUserIdNeeded = false }: FeedContainerProps) {
     }
   }, [fetchNextPage, inView, hasNextPage]);
 
-  if (status === "pending") return <PhotosSkeleton />;
-  if (status === "error") return <h1>{error.message}</h1>;
-  if (data)
+  if (status === "pending")
     return (
-      <div className="container my-6">
-        <ul className="flex flex-col gap-4">
-          {data.pages.map(({ data: photos }, i) => {
-            if (!photos) return;
-            return <FeedPhotos key={i} photos={photos} />;
-          })}
-          <div ref={ref}>
-            {isFetching && status === "success" && "Carregando..."}
-          </div>
-        </ul>
+      <div className="flex h-screen w-full items-center justify-center">
+        <Loading />
       </div>
     );
+
+  if (status === "error")
+    return (
+      <h1 className="text-center text-3xl font-semibold leading-[130%] md:text-5xl">
+        {error.message}
+      </h1>
+    );
+
+  if (data?.pages[0].length === 0 && fallback) return fallback;
+
+  return (
+    <div className="my-6">
+      <ul className="flex flex-col gap-2 sm:gap-4">
+        {data.pages.map((photos, i) => {
+          if (!photos) return;
+          return <FeedPhotos key={i} photos={photos} pageIndex={i} />;
+        })}
+        <div ref={ref} className={isFetching ? "my-2" : ""}>
+          {isFetching && status === "success" && <Loading />}
+        </div>
+        {!hasNextPage && !isFetching && (
+          <p className="mb-12 mt-1 animate-fade-in text-center text-base sm:text-lg">
+            Não existem mais postagens.
+          </p>
+        )}
+      </ul>
+    </div>
+  );
 }
