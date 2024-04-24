@@ -1,5 +1,4 @@
 export const BASE_URL = process.env.API_BASE_URL!;
-const PASSWORD_LOST_URL = process.env.PASSWORD_LOST_URL!;
 
 export function PHOTO_GET() {
   return {
@@ -66,15 +65,11 @@ export function USER_POST(body: {
   };
 }
 
-export function PASSWORD_LOST_POST(login: string) {
+export function PASSWORD_LOST_POST() {
   return {
     url: BASE_URL + "/api/password/lost",
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: {
-      login,
-      url: PASSWORD_LOST_URL,
-    },
   };
 }
 

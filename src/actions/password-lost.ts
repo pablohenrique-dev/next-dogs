@@ -3,14 +3,17 @@
 import { PASSWORD_LOST_POST } from "@/services/api";
 import { handleApiError } from "@/utils/handle-errors";
 
-export async function passwordLostAction(login: string) {
+export async function passwordLostAction(formData: {
+  login: string;
+  url: string;
+}) {
   try {
-    const { body, method, url, headers } = PASSWORD_LOST_POST(login);
+    const { method, url, headers } = PASSWORD_LOST_POST();
 
     const response = await fetch(url, {
       method,
       headers,
-      body: JSON.stringify(body),
+      body: JSON.stringify(formData),
     });
 
     if (!response.ok) {

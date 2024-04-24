@@ -14,7 +14,7 @@ const postLoginSchema = z.object({
   login: z.string().trim().min(1, { message: "Esse campo é obrigatório" }),
 });
 
-type PostLoginFormType = z.infer<typeof postLoginSchema>;
+export type PostLoginFormType = z.infer<typeof postLoginSchema>;
 
 export function ForgotPasswordForm() {
   const {
@@ -26,10 +26,15 @@ export function ForgotPasswordForm() {
   });
 
   const [toastStatus, setToastStatus] = React.useState<null | ToastState>(null);
+  const [url, setUrl] = React.useState("");
 
-  const onSubmit: SubmitHandler<PostLoginFormType> = async (data) => {
+  React.useEffect(() => {
+    setUrl(window.location.href.replace("forgot-password", "reset-password"));
+  }, []);
+
+  const onSubmit: SubmitHandler<PostLoginFormType> = async ({ login }) => {
     setToastStatus(null);
-    const response = await passwordLostAction(data.login);
+    const response = await passwordLostAction({ login, url });
     if (response.ok && response.data) {
       setToastStatus({ message: response.data, status: "success" });
     } else if (response.error) {
