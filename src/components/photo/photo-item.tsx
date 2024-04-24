@@ -6,10 +6,10 @@ import { ImageWithSkeleton } from "../image-with-skeleton";
 
 interface PhotoItemProps {
   photo: Photo;
-  photoIndex: number;
+  pageIndex: number;
 }
 
-export function PhotoItem({ photo, photoIndex }: PhotoItemProps) {
+export function PhotoItem({ photo, pageIndex }: PhotoItemProps) {
   return (
     <li key={photo.id} className="group relative overflow-hidden rounded">
       <Link href={`/photo/${photo.id}`} scroll={false}>
@@ -30,7 +30,7 @@ export function PhotoItem({ photo, photoIndex }: PhotoItemProps) {
           width={506}
           height={506}
           sizes="50vw"
-          priority={photoIndex < 4}
+          priority={pageIndex === 0}
         />
       </Link>
     </li>
