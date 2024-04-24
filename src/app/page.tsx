@@ -1,5 +1,9 @@
 import { Feed } from "@/components/feed/feed";
 
-export default async function Home() {
-  return <Feed />;
+export default function HomePage() {
+  return (
+    <section className="container">
+      <Feed username={null} />
+    </section>
+  );
 }
