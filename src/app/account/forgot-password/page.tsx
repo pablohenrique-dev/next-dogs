@@ -1,5 +1,6 @@
 import { ForgotPasswordForm } from "@/components/form/forgot-password-form";
 import { HeadingDetail } from "@/components/heading-detail";
+import { Metadata } from "next";
 import Link from "next/link";
 
 export default function ForgetPasswordPage() {
@@ -25,3 +26,8 @@ export default function ForgetPasswordPage() {
     </div>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Recuperar senha",
+  description: "Recupere a sua senha.",
+};

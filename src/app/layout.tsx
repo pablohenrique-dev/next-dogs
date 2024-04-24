@@ -19,7 +19,10 @@ const bitter = Bitter({
 });
 
 export const metadata: Metadata = {
-  title: "Next Dogs",
+  title: {
+    default: "Dogs",
+    template: "%s | Dogs",
+  },
   description: "Uma rede social para cachorros.",
 };
 

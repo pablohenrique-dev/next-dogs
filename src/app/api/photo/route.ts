@@ -2,6 +2,8 @@ import { PHOTO_GET } from "@/services/api";
 import { handleApiError } from "@/utils/handle-errors";
 import { NextResponse, type NextRequest } from "next/server";
 
+const REVALIDATE_TIME_IN_SECONDS = 10;
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = request.nextUrl;
@@ -16,6 +18,7 @@ export async function GET(request: NextRequest) {
         method,
         next: {
           tags: ["feed"],
+          revalidate: REVALIDATE_TIME_IN_SECONDS,
         },
       },
     );

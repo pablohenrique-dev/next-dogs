@@ -1,5 +1,6 @@
 import { FormSignUp } from "@/components/form/form-signup";
 import { HeadingDetail } from "@/components/heading-detail";
+import { Metadata } from "next";
 import Link from "next/link";
 
 export default function SignUpPage() {
@@ -25,3 +26,8 @@ export default function SignUpPage() {
     </>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Criar conta",
+  description: "Crie sua conta no site Dogs.",
+};

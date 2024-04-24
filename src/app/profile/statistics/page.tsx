@@ -5,6 +5,8 @@ import { PostStatistic } from "@/@types/global";
 // import { Statistics } from "@/components/profile/statistics";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { Fallback } from "@/components/fallback";
+import { Metadata } from "next";
 
 const Statistics = dynamic(() => import("@/components/profile/statistics"), {
   ssr: false,
@@ -46,17 +48,16 @@ export default async function StatisticsPage() {
 
   if (!data || data.length === 0)
     return (
-      <div className="mt-8 flex animate-fade-left flex-col gap-6">
-        <h3 className="font-body text-lg">
-          Não há estatísticas para mostrar 😥
-        </h3>
-        <Link
-          href="/profile/new-post"
-          className="inline-block w-fit rounded bg-primary px-6 py-4 font-bold uppercase text-primary-dark"
-        >
-          Criar post
-        </Link>
-      </div>
+      <Fallback
+        message="Não há estatísticas para mostrar 😥"
+        redirectUrl="/profile/new-post"
+        linkText="Criar post"
+      />
     );
   return <Statistics posts={data} />;
 }
+
+export const metadata: Metadata = {
+  title: "Estatísticas",
+  description: "Veja as estatísticas dos seus posts.",
+};

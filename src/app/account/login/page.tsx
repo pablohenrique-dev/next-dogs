@@ -1,6 +1,6 @@
 import { FormLogin } from "@/components/form/form-login";
 import { HeadingDetail } from "@/components/heading-detail";
-
+import { Metadata } from "next";
 import Link from "next/link";
 
 export default function LoginPage() {
@@ -22,3 +22,8 @@ export default function LoginPage() {
     </>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Login",
+  description: "Logue na sua conta no site Dogs.",
+};

@@ -1,5 +1,6 @@
 import { FormResetPassword } from "@/components/form/form-reset-password";
 import { HeadingDetail } from "@/components/heading-detail";
+import { Metadata } from "next";
 import Link from "next/link";
 
 interface resetPasswordParams {
@@ -32,3 +33,8 @@ export default function resetPasswordPage({
     </div>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Resetar senha",
+  description: "Resete a sua senha.",
+};
