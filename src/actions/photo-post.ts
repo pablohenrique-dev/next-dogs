@@ -2,9 +2,9 @@
 
 import { PHOTO_POST } from "@/services/api";
 import { handleApiError } from "@/utils/handle-errors";
-import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import { revalidateTags } from "@/utils/revalidate-tags";
 
 export async function photoPostAction(formData: FormData) {
   try {
@@ -26,8 +26,7 @@ export async function photoPostAction(formData: FormData) {
   } catch (error) {
     return handleApiError(error);
   }
-  revalidateTag("feed");
-  revalidateTag("photo");
-  revalidateTag("stats");
+ 
+  revalidateTags(["feed", "photo", "stats"]);
   redirect("/profile");
 }

@@ -2,7 +2,7 @@
 
 import { COMMENT_POST } from "@/services/api";
 import { handleApiError } from "@/utils/handle-errors";
-import { revalidateTag } from "next/cache";
+import { revalidateTags } from "@/utils/revalidate-tags";
 import { cookies } from "next/headers";
 
 export async function commentPostAction(photoId: number, comment: string) {
@@ -28,8 +28,7 @@ export async function commentPostAction(photoId: number, comment: string) {
       throw new Error("Não foi possível enviar o comentário");
     }
 
-    revalidateTag("photo");
-    revalidateTag("feed");
+    revalidateTags(["feed", "photo" ]);
     return { ok: true, data: null, error: null };
   } catch (error) {
     return handleApiError(error);

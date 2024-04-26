@@ -2,7 +2,7 @@
 
 import { PHOTO_DELETE } from "@/services/api";
 import { handleApiError } from "@/utils/handle-errors";
-import { revalidateTag } from "next/cache";
+import { revalidateTags } from "@/utils/revalidate-tags";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -22,8 +22,6 @@ export async function photoDeleteAction(photoId: string) {
     return handleApiError(error);
   }
 
-  revalidateTag("feed");
-  revalidateTag("photo");
-  revalidateTag("stats");
+  revalidateTags(["feed", "photo", "stats"]);
   redirect("/profile");
 }
