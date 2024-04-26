@@ -8,6 +8,7 @@ export default async function ProfilePage() {
   return (
     <Feed
       username={user ? user.username : null}
+      queryKey="feedProfile"
       fallback={
         <Fallback
           message="Você ainda não possui nenhum post."

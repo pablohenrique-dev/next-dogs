@@ -13,12 +13,13 @@ const STALE_TIME_IN_MILISECONDS = 10;
 interface FeedProps {
   username: string | null;
   fallback?: React.ReactNode;
+  queryKey: string;
 }
 
-export function Feed({ username, fallback }: FeedProps) {
+export function Feed({ username, fallback, queryKey }: FeedProps) {
   const { data, error, status, fetchNextPage, hasNextPage, isFetching } =
     useInfiniteQuery({
-      queryKey: ["feed"],
+      queryKey: [queryKey],
       staleTime: STALE_TIME_IN_MILISECONDS,
       refetchOnMount: true,
       refetchOnWindowFocus: true,

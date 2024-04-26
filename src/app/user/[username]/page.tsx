@@ -15,6 +15,7 @@ export default async function UserPage({ params }: UserPageParams) {
         <HeadingDetail />
       </h1>
       <Feed
+        queryKey="feedUser"
         username={params.username}
         fallback={
           <Fallback
