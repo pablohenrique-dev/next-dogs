@@ -8,7 +8,7 @@ import { InputPassword } from "./input-password";
 import { Button } from "../button";
 import React from "react";
 import { Toast, ToastState } from "../toast";
-import { passwordResestAction } from "@/actions/password-rest";
+import { passwordResestAction } from "@/actions/password-reset";
 import { useRouter } from "next/navigation";
 
 const postPasswordSchema = z.object({
