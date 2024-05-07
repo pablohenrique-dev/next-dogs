@@ -19,11 +19,8 @@ interface FeedProps {
 export function Feed({ username, fallback, queryKey }: FeedProps) {
   const { data, error, status, fetchNextPage, hasNextPage, isFetching } =
     useInfiniteQuery({
-      queryKey: [queryKey],
+      queryKey: [queryKey, username],
       staleTime: STALE_TIME_IN_MILISECONDS,
-      refetchOnMount: true,
-      refetchOnWindowFocus: true,
-      throwOnError: true,
       queryFn: ({ pageParam }) =>
         photosGet({
           pageParam,
